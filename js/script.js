@@ -1735,18 +1735,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('googleLoginBtn').addEventListener('click', () => signInWithGoogle('login'));
     document.getElementById('googleRegisterBtn').addEventListener('click', () => signInWithGoogle('register'));
     
-    document.getElementById('search-btn').addEventListener('click', function() {
-        const searchTerm = document.getElementById('search-input').value;
-        if (searchTerm.trim() !== '') {
-            const currentLang = document.body.getAttribute('data-lang') || 'bg';
-            showNotification(
-                currentLang === 'bg' ? '🔍 Търсене' : '🔍 Search',
-                currentLang === 'bg' ? 'Намиране на резултати за: "' + searchTerm + '"' : 'Finding results for: "' + searchTerm + '"',
-                '🔍'
-            );
-        }
-    });
-    
     const darkmodeToggle = document.getElementById('darkmode-toggle');
     if (darkmodeToggle) {
         darkmodeToggle.addEventListener('change', toggleTheme);
