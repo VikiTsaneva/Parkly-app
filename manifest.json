@@ -1,20 +1,25 @@
 {
-  "name": "Parkly",
+  "name": "Parkly - Намерете свободни паркоместа",
   "short_name": "Parkly",
+  "description": "Откривайте свободни паркоместа в реално време",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#4CAF50",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait",
+  "scope": "/",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
