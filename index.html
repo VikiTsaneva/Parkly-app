@@ -6,7 +6,7 @@
     <title>Parkly - Намерете свободни паркоместа</title>
     
     <!-- Favicon -->
-    <link rel="icon" href="logo .svg" type="image/svg+xml">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -68,6 +68,7 @@
             --admin-text: #000000;
             --favorite: #ffc107;
             --favorite-hover: #ffb300;
+            --install-btn-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         /* Тъмна тема */
@@ -105,6 +106,7 @@
             --admin-text: #000000;
             --favorite: #ffc107;
             --favorite-hover: #ffb300;
+            --install-btn-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         body {
@@ -1026,6 +1028,83 @@
             background: #219a52;
         }
 
+        /* Постоянен бутон за инсталиране */
+        .install-button-container {
+            margin: 15px 20px;
+            text-align: center;
+        }
+
+        .install-btn-permanent {
+            background: var(--install-btn-bg);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .install-btn-permanent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .install-btn-permanent i {
+            font-size: 1.2rem;
+        }
+
+        .install-btn-permanent:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* iOS инструкции */
+        .ios-instructions {
+            background: var(--stat-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .ios-instructions h4 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ios-instructions h4 i {
+            color: var(--secondary);
+        }
+
+        .ios-instructions p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ios-instructions p i {
+            color: var(--secondary);
+            width: 20px;
+        }
+
         /* Стилове за вход */
         .auth-container {
             max-width: 450px;
@@ -1399,6 +1478,7 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
             transition: background-color 0.3s ease;
             border: 1px solid var(--border-color);
+            margin-bottom: 20px;
         }
 
         .setting-item {
@@ -1740,7 +1820,7 @@
             width: 20px;
         }
 
-        /* Инсталационен банер за PWA */
+        /* Инсталационен банер за PWA (временен) */
         .install-banner {
             position: fixed;
             bottom: 100px;
@@ -2513,6 +2593,10 @@
             .favorite-actions {
                 flex-direction: column;
             }
+
+            .install-button-container {
+                margin: 10px 10px;
+            }
         }
 
         @media (max-width: 380px) {
@@ -2733,7 +2817,7 @@
         <div class="sidebar">
             <div class="sidebar-header">
                 <h2>
-                     <h2><img src="logo .svg" alt="Parkly logo" class="logo-icon"> <span class="lang-bg">Parkly</span><span class="lang-en">Parkly</span></h2>
+                     <h2><img src="logo.svg" alt="Parkly logo" class="logo-icon"> <span class="lang-bg">Parkly</span><span class="lang-en">Parkly</span></h2>
                 </h2>
             </div>
             
@@ -3293,6 +3377,24 @@
                 <div id="settings-page" class="page">
                     <h2 class="form-title lang-bg">Настройки</h2>
                     <h2 class="form-title lang-en">Settings</h2>
+                    
+                    <!-- Постоянен бутон за инсталиране -->
+                    <div class="install-button-container" id="permanentInstallContainer">
+                        <button class="install-btn-permanent" id="permanentInstallBtn" onclick="promptInstall()">
+                            <i class="fas fa-download"></i>
+                            <span class="lang-bg">Инсталирай приложението</span>
+                            <span class="lang-en">Install app</span>
+                        </button>
+                    </div>
+                    
+                    <!-- iOS инструкции (показват се само на iOS) -->
+                    <div class="ios-instructions" id="iosInstructions" style="display: none;">
+                        <h4><i class="fab fa-apple"></i> <span class="lang-bg">За iOS устройства</span><span class="lang-en">For iOS devices</span></h4>
+                        <p><i class="fas fa-1"></i> <span class="lang-bg">Натиснете бутона "Сподели" <i class="fas fa-share-square"></i> в браузъра</span><span class="lang-en">Tap the Share button <i class="fas fa-share-square"></i> in Safari</span></p>
+                        <p><i class="fas fa-2"></i> <span class="lang-bg">Превъртете надолу и изберете "Добави на началния екран"</span><span class="lang-en">Scroll down and select "Add to Home Screen"</span></p>
+                        <p><i class="fas fa-3"></i> <span class="lang-bg">Натиснете "Добави" в горния десен ъгъл</span><span class="lang-en">Tap "Add" in the top right corner</span></p>
+                    </div>
+                    
                     <div class="settings-list">
                         <div class="setting-item">
                             <div class="setting-info">
@@ -3324,7 +3426,7 @@
         </div>
     </div>
     
-    <!-- Банер за инсталиране на PWA -->
+    <!-- Банер за инсталиране на PWA (временен) -->
     <div class="install-banner" id="installBanner">
         <div class="install-banner-content">
             <div class="install-banner-icon">
@@ -3338,7 +3440,11 @@
             </div>
         </div>
         <div class="install-banner-actions">
-            <button class="install-banner-btn" id="installBtn"><span class="lang-bg">Инсталирай</span><span class="lang-en">Install</span></button>
+            <button class="install-banner-btn" id="installBtn">
+                <i class="fas fa-download"></i>
+                <span class="lang-bg">Инсталирай</span>
+                <span class="lang-en">Install</span>
+            </button>
             <button class="install-banner-close" id="closeInstallBanner">&times;</button>
         </div>
     </div>
@@ -3425,6 +3531,7 @@
         let currentAdminPage = 1;
         const usersPerPage = 10;
         let userFavorites = []; // Масив с любими места на потребителя
+        let deferredPrompt; // За PWA инсталация
         
         // Данни за паркоместата
         const parkingSpotsData = [
@@ -3434,33 +3541,99 @@
         ];
         
         // ===== PWA Инсталация =====
-        let deferredPrompt;
         const installBanner = document.getElementById('installBanner');
         const installBtn = document.getElementById('installBtn');
         const closeInstallBanner = document.getElementById('closeInstallBanner');
+        const permanentInstallBtn = document.getElementById('permanentInstallBtn');
+        const iosInstructions = document.getElementById('iosInstructions');
 
-        if (!localStorage.getItem('installBannerClosed')) {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                installBanner.style.display = 'flex';
+        // Проверка дали е iOS
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+
+        // Проверка дали приложението вече е инсталирано (работи в standalone mode)
+        function isRunningStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                   window.navigator.standalone === true;
+        }
+
+        // Показване/скриване на бутона за инсталиране
+        function updateInstallButton() {
+            if (isRunningStandalone()) {
+                // Вече е инсталирано - скриваме бутоните
+                if (permanentInstallBtn) permanentInstallBtn.style.display = 'none';
+                if (installBanner) installBanner.style.display = 'none';
+                if (iosInstructions) iosInstructions.style.display = 'none';
+                return;
+            }
+
+            if (isIOS()) {
+                // iOS - показваме инструкции
+                if (permanentInstallBtn) permanentInstallBtn.style.display = 'block';
+                if (iosInstructions) iosInstructions.style.display = 'block';
+                if (installBanner) installBanner.style.display = 'none';
+            } else {
+                // Android/други - показваме бутона
+                if (permanentInstallBtn) permanentInstallBtn.style.display = 'block';
+                if (iosInstructions) iosInstructions.style.display = 'none';
+                
+                // Показваме банера ако има deferredPrompt
+                if (deferredPrompt && !localStorage.getItem('installBannerClosed')) {
+                    installBanner.style.display = 'flex';
+                }
+            }
+        }
+
+        // Глобална функция за инсталиране
+        window.promptInstall = function() {
+            if (isIOS()) {
+                // iOS - показваме инструкциите
+                iosInstructions.style.display = 'block';
+                showNotification('Следвайте инструкциите за да добавите Parkly на началния екран', 'success');
+                return;
+            }
+
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Потребителят инсталира приложението');
+                        showNotification('✅ Parkly беше инсталирано успешно!', 'success');
+                        updateInstallButton();
+                    }
+                    deferredPrompt = null;
+                    installBanner.style.display = 'none';
+                });
+            } else {
+                showNotification('Инсталацията не е възможна в момента. Опитайте отново по-късно.', 'error');
+            }
+        };
+
+        // Слушател за beforeinstallprompt събитие
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            updateInstallButton();
+        });
+
+        // Слушател за успешна инсталация
+        window.addEventListener('appinstalled', () => {
+            console.log('Parkly беше инсталирано');
+            deferredPrompt = null;
+            updateInstallButton();
+            showNotification('✅ Благодарим, че инсталирахте Parkly!', 'success');
+        });
+
+        // Затваряне на банера
+        if (closeInstallBanner) {
+            closeInstallBanner.addEventListener('click', () => {
+                installBanner.style.display = 'none';
+                localStorage.setItem('installBannerClosed', 'true');
             });
         }
 
-        installBtn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`Потребителски избор: ${outcome}`);
-            deferredPrompt = null;
-            installBanner.style.display = 'none';
-        });
-
-        closeInstallBanner.addEventListener('click', () => {
-            installBanner.style.display = 'none';
-            localStorage.setItem('installBannerClosed', 'true');
-        });
-
+        // Проверка за офлайн режим
         window.addEventListener('online', () => document.body.classList.remove('offline'));
         window.addEventListener('offline', () => document.body.classList.add('offline'));
 
@@ -3472,6 +3645,21 @@
                 element.style.display = 'block';
                 setTimeout(() => element.style.display = 'none', 5000);
             }
+        }
+
+        function showNotification(message, type = 'success') {
+            const notificationEl = document.getElementById('notification');
+            const icon = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+            
+            notificationEl.innerHTML = icon + ' ' + message;
+            notificationEl.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notificationEl.classList.add('hide');
+                setTimeout(() => {
+                    notificationEl.classList.remove('show', 'hide');
+                }, 300);
+            }, 3000);
         }
 
         function showSuccess(elementId, message) {
@@ -3528,11 +3716,9 @@
                     let favorites = userData.favorites || [];
                     
                     if (favorites.includes(spotId)) {
-                        // Премахване от любими
                         favorites = favorites.filter(id => id !== spotId);
                         showSuccess('login-success', 'Премахнато от любими!');
                     } else {
-                        // Добавяне към любими
                         favorites.push(spotId);
                         showSuccess('login-success', 'Добавено към любими!');
                     }
@@ -3540,15 +3726,12 @@
                     await userRef.update({ favorites: favorites });
                     userFavorites = favorites;
                     
-                    // Актуализираме бутоните на картата
                     updateFavoriteButtons();
                     
-                    // Актуализираме списъка с любими, ако страницата е активна
                     if (document.getElementById('favorites-page').classList.contains('active')) {
                         displayFavorites();
                     }
                     
-                    // Актуализираме попъпите на картата
                     if (map && parkingPolygons.length > 0) {
                         parkingPolygons.forEach(polygon => map.removeLayer(polygon));
                         parkingPolygons = [];
@@ -3566,7 +3749,6 @@
         }
 
         function updateFavoriteButtons() {
-            // Актуализираме всички бутони за любими на картата
             document.querySelectorAll('.favorite-btn').forEach(btn => {
                 const spotId = btn.getAttribute('data-spot-id');
                 if (isFavorite(spotId)) {
@@ -3584,22 +3766,18 @@
         function navigateToSpot(lat, lng, spotName) {
             const currentLang = document.body.getAttribute('data-lang') || 'bg';
             
-            // Получаване на текущото место на потребителя
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
                         const userLat = position.coords.latitude;
                         const userLng = position.coords.longitude;
                         
-                        // Проверка дали устройството е мобилно
                         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         
                         if (isMobile) {
-                            // Отваряне в Google Maps приложение на мобилно с маршрут
                             const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}&travelmode=driving`;
                             window.open(url, '_blank');
                         } else {
-                            // Отваряне в Google Maps в нов прозорец на десктоп с маршрут
                             const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}&travelmode=driving`;
                             window.open(url, '_blank');
                         }
@@ -3607,7 +3785,6 @@
                         console.log(`Навигация от (${userLat}, ${userLng}) до: ${spotName} (${lat}, ${lng})`);
                     },
                     function(error) {
-                        // Грешка при получаването на местоположението - отваряме без маршрут
                         console.warn(`Грешка при получаването на местоположението: ${error.message}`);
                         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         
@@ -3623,7 +3800,6 @@
                     }
                 );
             } else {
-                // Ако браузърът не поддържа Geolocation API
                 console.warn('Geolocation не е поддържано в этот браузър');
                 const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
                 window.open(url, '_blank');
@@ -3637,7 +3813,6 @@
             const container = document.getElementById('favorites-list-container');
             
             if (!currentUser) {
-                // Показваме съобщение за вход
                 loginPrompt.style.display = 'block';
                 container.style.display = 'none';
                 return;
@@ -3648,7 +3823,6 @@
             
             if (!favoritesList) return;
             
-            // Зареждаме любимите ако не са заредени
             if (userFavorites.length === 0) {
                 await loadUserFavorites();
             }
@@ -3660,7 +3834,6 @@
             
             const currentLang = document.body.getAttribute('data-lang') || 'bg';
             
-            // Филтрираме само любимите места
             const favoriteSpots = parkingSpotsData.filter(spot => userFavorites.includes(spot.id));
             
             favoritesList.innerHTML = favoriteSpots.map(spot => {
@@ -3715,7 +3888,6 @@
             const loginPrompt = document.getElementById('loginPrompt');
             
             if (user) {
-                // Потребителят е логнат
                 currentUser = user;
                 
                 loginNavItem.style.display = 'none';
@@ -3726,25 +3898,19 @@
                 userName.textContent = displayName;
                 userNameEn.textContent = displayName;
                 
-                // Премахваме restricted класа от статус панела
                 statusPanel.classList.remove('restricted');
                 loginPrompt.style.display = 'none';
                 
-                // Зареждаме любимите на потребителя
                 loadUserFavorites().then(() => {
-                    // Актуализираме бутоните на картата
                     updateFavoriteButtons();
                 });
                 
-                // Зареждаме потребителските данни от Firestore
                 loadUserProfile(user.uid);
                 
-                // Проверяваме дали е админ
                 isUserAdmin(user.uid).then(admin => {
                     isAdmin = admin;
                     adminNavItem.style.display = admin ? 'flex' : 'none';
                     
-                    // Актуализираме статуса в UI
                     userStatus.textContent = admin ? 'Администратор' : 'Потребител';
                     userStatusEn.textContent = admin ? 'Administrator' : 'User';
                     
@@ -3753,7 +3919,6 @@
                     }
                 });
                 
-                // Актуализираме статусите
                 updateSpotStatus(1, spot1Status, spot1Distance);
                 updateSpotStatus(2, spot2Status, spot2Distance);
                 updateSpotStatus(3, spot3Status, spot3Distance);
@@ -3761,7 +3926,6 @@
                     updateMapColors();
                 }
             } else {
-                // Потребителят не е логнат
                 currentUser = null;
                 isAdmin = false;
                 userFavorites = [];
@@ -3776,27 +3940,25 @@
                 userStatus.textContent = '';
                 userStatusEn.textContent = '';
                 
-                // Добавяме restricted клас към статус панела
                 statusPanel.classList.add('restricted');
                 loginPrompt.style.display = 'block';
                 
-                // Изчистваме профил страницата
                 clearProfilePage();
                 
-                // Показваме "ЗАРЕЖДАНЕ" за нелогнати
                 updateSpotStatus(1, "ЗАРЕЖДАНЕ", -1);
                 updateSpotStatus(2, "ЗАРЕЖДАНЕ", -1);
                 updateSpotStatus(3, "СВОБОДНО", -1);
                 
-                // Нулираме админ данните
                 allUsers = [];
                 filteredUsers = [];
                 
-                // Актуализираме любимите
                 if (document.getElementById('favorites-page').classList.contains('active')) {
                     displayFavorites();
                 }
             }
+            
+            // Актуализираме бутона за инсталиране
+            updateInstallButton();
         }
 
         function clearProfilePage() {
@@ -3899,7 +4061,6 @@
                 closeEditModal();
                 loadUserProfile(currentUser.uid);
                 
-                // Актуализираме името в страничната лента
                 document.getElementById('userName').textContent = `${firstName} ${lastName}`;
                 document.getElementById('userNameEn').textContent = `${firstName} ${lastName}`;
                 
@@ -3915,11 +4076,9 @@
                 let snapshot;
                 
                 try {
-                    // Опитваме с ordering
                     snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
                 } catch (orderError) {
                     console.warn('Ordering не работи, зареждаме без него:', orderError);
-                    // Ако ordering не работи, зареждаме без него
                     snapshot = await db.collection('users').get();
                 }
                 
@@ -4142,7 +4301,6 @@
 
         // ===== ФУНКЦИИ ЗА RTDB (ПАРКОМЕСТА) =====
         function setupFirebaseListeners() {
-            // Слушател за място 1 (инвалиди)
             rtdb.ref('parking/spot1').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -4151,7 +4309,6 @@
                     
                     console.log("Място 1 обновено:", spot1Status, spot1Distance);
                     
-                    // Актуализираме UI само ако има логнат потребител
                     if (currentUser) {
                         updateSpotStatus(1, spot1Status, spot1Distance);
                     }
@@ -4161,14 +4318,12 @@
                     updateLastUpdateTime();
                     updateFreeSpotsCount();
                     
-                    // Актуализираме любимите, ако страницата е активна
                     if (document.getElementById('favorites-page').classList.contains('active')) {
                         displayFavorites();
                     }
                 }
             });
             
-            // Слушател за място 2
             rtdb.ref('parking/spot2').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -4177,7 +4332,6 @@
                     
                     console.log("Място 2 обновено:", spot2Status, spot2Distance);
                     
-                    // Актуализираме UI само ако има логнат потребител
                     if (currentUser) {
                         updateSpotStatus(2, spot2Status, spot2Distance);
                     }
@@ -4187,14 +4341,12 @@
                     updateLastUpdateTime();
                     updateFreeSpotsCount();
                     
-                    // Актуализираме любимите, ако страницата е активна
                     if (document.getElementById('favorites-page').classList.contains('active')) {
                         displayFavorites();
                     }
                 }
             });
             
-            // Слушател за място 3
             rtdb.ref('parking/spot3').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -4203,7 +4355,6 @@
                     
                     console.log("Място 3 обновено:", spot3Status, spot3Distance);
                     
-                    // Актуализираме UI само ако има логнат потребител
                     if (currentUser) {
                         updateSpotStatus(3, spot3Status, spot3Distance);
                     }
@@ -4213,12 +4364,10 @@
                     updateLastUpdateTime();
                     updateFreeSpotsCount();
                     
-                    // Актуализираме любимите, ако страницата е активна
                     if (document.getElementById('favorites-page').classList.contains('active')) {
                         displayFavorites();
                     }
                 } else {
-                    // Ако няма данни, показваме "СВОБОДНО" по подразбиране
                     spot3Distance = -1;
                     spot3Status = "СВОБОДНО";
                     
@@ -4287,11 +4436,11 @@
             for (let i = 0; i < parkingPolygons.length; i++) {
                 let fillColor;
                 
-                if (i === 0) { // Място 1 (инвалиди)
+                if (i === 0) {
                     fillColor = spot1Status === "ЗАЕТО" ? '#b71c1c' : '#0066cc';
-                } else if (i === 1) { // Място 2
+                } else if (i === 1) {
                     fillColor = spot2Status === "ЗАЕТО" ? '#ea4335' : '#34a853';
-                } else { // Място 3
+                } else {
                     fillColor = spot3Status === "ЗАЕТО" ? '#ea4335' : '#34a853';
                 }
                 
@@ -4332,7 +4481,6 @@
                 refreshBtn.className = 'fas fa-spinner fa-spin';
             }
             
-            // Ръчно актуализиране на данните
             rtdb.ref('parking').once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -4358,7 +4506,6 @@
                     updateLastUpdateTime();
                     updateFreeSpotsCount();
                     
-                    // Актуализираме любимите, ако страницата е активна
                     if (document.getElementById('favorites-page').classList.contains('active')) {
                         displayFavorites();
                     }
@@ -4389,13 +4536,11 @@
         }
 
         function initializeMap() {
-            // Проверка дали картата вече е инициализирана
             if (map !== null) {
                 console.log("Картата вече е инициализирана");
                 return;
             }
             
-            // Проверка дали елементът съществува
             const mapElement = document.getElementById('map');
             if (!mapElement) {
                 console.error("Елементът за карта не е намерен");
@@ -4406,19 +4551,15 @@
             try {
                 console.log("Инициализиране на карта...");
                 
-                // Създаване на картата
                 map = L.map('map').setView([centerLat, centerLng], 18.5);
                 
-                // Добавяне на стандартен OpenStreetMap слой
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 22
                 }).addTo(map);
                 
-                // Създаване на паркоместата
                 createParkingSpots();
                 
-                // Добавяне на събитие за преоразмеряване
                 setTimeout(() => {
                     map.invalidateSize();
                 }, 500);
@@ -4426,7 +4567,6 @@
                 console.log("Картата е инициализирана успешно");
             } catch (error) {
                 console.error("Грешка при инициализиране на картата:", error);
-                // Опитай пак след 1 секунда
                 setTimeout(initializeMap, 1000);
             }
         }
@@ -4450,14 +4590,12 @@
                 const spotLat = centerLat;
                 const spotLng = centerLng + offsetLng - centerOffset;
                 
-                // Запазваме координатите в данните за мястото
                 parkingSpotsData[i].lat = spotLat;
                 parkingSpotsData[i].lng = spotLng;
                 
                 const halfWidth = metersToDegrees(parkingWidth) / 2;
                 const halfLength = metersToDegrees(parkingLength) / 2;
                 
-                // Ъглите на правоъгълника
                 const corners = [
                     [spotLat - halfLength, spotLng - halfWidth],
                     [spotLat - halfLength, spotLng + halfWidth],
@@ -4465,7 +4603,6 @@
                     [spotLat + halfLength, spotLng - halfWidth]
                 ];
                 
-                // Определяне на цвета според статуса и типа място
                 let fillColor;
                 if (i === 0) {
                     fillColor = (currentUser && spot1Status === "ЗАЕТО") ? '#b71c1c' : '#0066cc';
@@ -4475,7 +4612,6 @@
                     fillColor = (currentUser && spot3Status === "ЗАЕТО") ? '#ea4335' : '#34a853';
                 }
                 
-                // Създаване на паркомястото
                 const parkingSpace = L.polygon(corners, {
                     color: '#ffffff',
                     fillColor: fillColor,
@@ -4485,7 +4621,6 @@
                 
                 parkingPolygons.push(parkingSpace);
                 
-                // Добавяне на номер с икона
                 let labelHtml;
                 if (i === 0) {
                     labelHtml = '<div style="background: white; color: ' + fillColor + '; font-weight: 700; font-size: 16px; width: 44px; height: 44px; border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid ' + fillColor + '; box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-family: \'Segoe UI\', sans-serif; line-height: 1.2; background: rgba(255,255,255,0.98);"><span style="font-size: 12px;">' + (i + 1) + '</span><i class="fas fa-wheelchair" style="font-size: 18px;"></i></div>';
@@ -4502,7 +4637,6 @@
                     })
                 }).addTo(map);
                 
-                // Информация при клик
                 let statusText;
                 if (i === 0) statusText = spot1Status;
                 else if (i === 1) statusText = spot2Status;
@@ -4800,23 +4934,6 @@
             }
         };
 
-        // ===== ФУНКЦИЯ ЗА УВЕДОМЛЕНИЯ =====
-        function showNotification(message, type = 'success') {
-            const notificationEl = document.getElementById('notification');
-            const icon = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
-            
-            notificationEl.innerHTML = icon + ' ' + message;
-            notificationEl.className = `notification ${type} show`;
-            
-            // Скриване на уведомлението след 3 секунди
-            setTimeout(() => {
-                notificationEl.classList.add('hide');
-                setTimeout(() => {
-                    notificationEl.classList.remove('show', 'hide');
-                }, 300);
-            }, 3000);
-        }
-
         // ===== ФУНКЦИИ ЗА ТЕМА И ЕЗИК =====
         function toggleTheme() {
             document.body.classList.toggle('dark-theme');
@@ -4837,13 +4954,11 @@
             document.body.setAttribute('data-lang', lang);
             localStorage.setItem('language', lang);
             
-            // Актуализиране на placeholder на контактния textarea
             const contactMessage = document.getElementById('contactMessage');
             if (contactMessage) {
                 contactMessage.placeholder = lang === 'bg' ? 'Вашето съобщение...' : 'Your message...';
             }
             
-            // Актуализиране на статусите на паркоместата според езика
             if (currentUser) {
                 updateSpotStatus(1, spot1Status, spot1Distance);
                 updateSpotStatus(2, spot2Status, spot2Distance);
@@ -4854,10 +4969,8 @@
                 updateSpotStatus(3, "СВОБОДНО", -1);
             }
             
-            // Актуализиране на времето за последна актуализация
             updateLastUpdateTime();
             
-            // Актуализиране на заглавието на страницата
             const pageTitle = document.getElementById('page-title');
             const activePage = document.querySelector('.page.active');
             if (activePage) {
@@ -4874,12 +4987,10 @@
                 pageTitle.textContent = pageNames[pageId];
             }
             
-            // Актуализиране на админ таблицата ако е активна
             if (isAdmin && document.getElementById('admin-page').classList.contains('active')) {
                 displayAdminUsers();
             }
             
-            // Актуализиране на любимите ако страницата е активна
             if (document.getElementById('favorites-page').classList.contains('active')) {
                 displayFavorites();
             }
@@ -4902,32 +5013,25 @@
             loadTheme();
             loadLanguage();
             
-            // Инициализиране на картата с малко закъснение
             setTimeout(function() {
                 initializeMap();
             }, 500);
             
-            // Настройка на Firebase слушатели
             setupFirebaseListeners();
             
-            // Първоначално ръчно зареждане на данни
             setTimeout(manualRefresh, 1500);
             
-            // Слушател за състоянието на аутентикация
             auth.onAuthStateChanged((user) => {
                 console.log("Auth state променен:", user ? user.email : "няма потребител");
                 updateUIBasedOnAuth(user);
                 
-                // Актуализираме картата ако вече е създадена
                 if (map && parkingPolygons.length > 0) {
-                    // Премахваме старите полигони и създаваме нови с актуални цветове
                     parkingPolygons.forEach(polygon => map.removeLayer(polygon));
                     parkingPolygons = [];
                     createParkingSpots();
                 }
             });
             
-            // Навигация между страниците
             const navItems = document.querySelectorAll('.nav-item');
             const pages = document.querySelectorAll('.page');
             const pageTitle = document.getElementById('page-title');
@@ -4941,7 +5045,6 @@
                         return;
                     }
                     
-                    // Проверка за достъп до защитени страници
                     if ((pageId === 'profile' || pageId === 'favorites' || pageId === 'admin') && !currentUser) {
                         const currentLang = document.body.getAttribute('data-lang') || 'bg';
                         alert(currentLang === 'bg' ? 'Моля, влезте в профила си, за да достъпите тази страница.' : 'Please login to access this page.');
@@ -4949,7 +5052,6 @@
                         return;
                     }
                     
-                    // Проверка за достъп до админ панел
                     if (pageId === 'admin' && !isAdmin) {
                         const currentLang = document.body.getAttribute('data-lang') || 'bg';
                         alert(currentLang === 'bg' ? 'Нямате администраторски права!' : 'You do not have admin privileges!');
@@ -5001,7 +5103,6 @@
                 });
             });
             
-            // Клик върху потребителската информация
             document.getElementById('userInfo').addEventListener('click', function() {
                 if (currentUser) {
                     document.querySelector('[data-page=profile]').click();
@@ -5010,7 +5111,6 @@
                 }
             });
             
-            // Форма за вход
             document.getElementById('login-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const email = document.getElementById('login-email').value;
@@ -5018,7 +5118,6 @@
                 loginUser(email, password);
             });
             
-            // Форма за регистрация
             document.getElementById('register-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const firstName = document.getElementById('register-firstname').value;
@@ -5032,7 +5131,6 @@
             
             document.getElementById('editProfileBtn').addEventListener('click', editProfile);
             
-            // Забравена парола
             document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
                 e.preventDefault();
                 const email = document.getElementById('login-email').value;
@@ -5060,11 +5158,9 @@
                 document.getElementById('forgotPasswordLink').click();
             });
             
-            // Google вход
             document.getElementById('googleLoginBtn').addEventListener('click', () => signInWithGoogle('login'));
             document.getElementById('googleRegisterBtn').addEventListener('click', () => signInWithGoogle('register'));
             
-            // Бутон за търсене
             document.getElementById('search-btn').addEventListener('click', function() {
                 const searchTerm = document.getElementById('search-input').value;
                 if (searchTerm.trim() !== '') {
@@ -5073,13 +5169,11 @@
                 }
             });
             
-            // Тъмна тема toggle
             const darkmodeToggle = document.getElementById('darkmode-toggle');
             if (darkmodeToggle) {
                 darkmodeToggle.addEventListener('change', toggleTheme);
             }
             
-            // Език select
             const languageSelect = document.getElementById('language-select');
             if (languageSelect) {
                 languageSelect.addEventListener('change', function() {
@@ -5087,10 +5181,8 @@
                 });
             }
             
-            // Бутон за изход от профил страницата
             document.getElementById('logoutProfileBtn').addEventListener('click', logoutUser);
             
-            // Контакти
             const contactBubble = document.getElementById('contactBubble');
             const contactModal = document.getElementById('contactModal');
             const closeModal = document.getElementById('closeModal');
@@ -5131,12 +5223,10 @@
                     return;
                 }
                 
-                // Вземаме полное име или displayName от текущия потребител
                 let userName = currentUser.displayName;
                 
                 try {
                     if (!userName) {
-                        // Опитваме да вземем fullName, firstName + lastName от профила в Firestore
                         const doc = await db.collection('users').doc(currentUser.uid).get();
                         if (doc.exists) {
                             const userData = doc.data();
@@ -5152,7 +5242,6 @@
                 
                 if (!userName) userName = currentUser.email;
                 
-                // Генериране на текущото време
                 const now = new Date();
                 const time = now.toLocaleString(currentLang === 'bg' ? 'bg-BG' : 'en-US', {
                     year: 'numeric',
@@ -5188,7 +5277,6 @@
                 e.stopPropagation();
             });
             
-            // Затваряне на модалните прозорци при клик извън тях
             document.getElementById('userDetailsModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeUserDetailsModal();
@@ -5200,12 +5288,16 @@
                     closeEditModal();
                 }
             });
+            
+            // Актуализираме бутона за инсталиране при зареждане
+            updateInstallButton();
         });
         
         console.log("Система за мониторинг на паркинг места - Габрово");
         console.log("Използва два Firebase проекта:");
         console.log("- Authentication & Firestore: registration-88c86");
         console.log("- Realtime Database: esp32-5d620");
+        console.log("- PWA инсталация: активна");
     </script>
 </body>
 </html>
